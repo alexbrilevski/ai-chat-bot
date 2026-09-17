@@ -1,7 +1,11 @@
 import ChatBotStart from "./components/ChatBotStart";
 
 const App = () => {
-  return <ChatBotStart />;
+  return (
+    <div className="container">
+      <ChatBotStart />
+    </div>
+  );
 };
 
 export default App;
