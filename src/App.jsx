@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 } from "uuid";
 import ChatBotStart from "./components/ChatBotStart";
 import ChatBotApp from "./components/ChatBotApp";
 
@@ -9,7 +10,7 @@ const App = () => {
 
   const handleAddChat = () => {
     const newChat = {
-      id: `c-${new Date().toLocaleDateString("en-GB")}-${new Date().toLocaleTimeString()}`,
+      id: v4(),
       title: `Chat ${new Date().toLocaleDateString("en-GB")} ${new Date().toLocaleTimeString()}`,
       messages: [],
     };

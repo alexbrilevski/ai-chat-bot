@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { v4 } from "uuid";
 import "./ChatBotApp.css";
 
 const ChatBotApp = ({
@@ -25,7 +26,7 @@ const ChatBotApp = ({
     if (inputValue.trim().length === 0) return;
 
     const newMessage = {
-      id: `m-${new Date().toLocaleDateString("en-GB")}-${new Date().toLocaleTimeString()}`,
+      id: v4(),
       type: "promt",
       text: inputValue,
       timestamp: new Date().toLocaleTimeString(),
