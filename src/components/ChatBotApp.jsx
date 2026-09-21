@@ -32,19 +32,23 @@ const ChatBotApp = ({
       timestamp: new Date().toLocaleTimeString(),
     };
 
-    const updatedMessages = [...messages, newMessage];
+    if (!activeChat) {
+      addNewChat(newMessage);
+    } else {
+      const updatedMessages = [...messages, newMessage];
 
-    setMessages(updatedMessages);
+      setMessages(updatedMessages);
+
+      const updatedChats = chats.map((chat) => {
+        if (chat.id === activeChat) {
+          return { ...chat, messages: updatedMessages };
+        }
+        return chat;
+      });
+
+      setChats(updatedChats);
+    }
     setInputValue("");
-
-    const updatedChats = chats.map((chat) => {
-      if (chat.id === activeChat) {
-        return { ...chat, messages: updatedMessages };
-      }
-      return chat;
-    });
-
-    setChats(updatedChats);
   };
 
   const handleMessageFormSubmit = (e) => {

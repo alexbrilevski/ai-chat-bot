@@ -8,11 +8,11 @@ const App = () => {
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
 
-  const handleAddChat = () => {
+  const handleAddChat = (initialMessage = null) => {
     const newChat = {
       id: v4(),
       title: `Chat ${new Date().toLocaleDateString("en-GB")} ${new Date().toLocaleTimeString()}`,
-      messages: [],
+      messages: initialMessage ? [initialMessage] : [],
     };
 
     setChats((prevChats) => [newChat, ...prevChats]);
