@@ -22,7 +22,7 @@ const ChatBotApp = ({
     setInputValue(e.target.value);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim().length === 0) return;
 
     const newMessage = {
@@ -49,6 +49,40 @@ const ChatBotApp = ({
       setChats(updatedChats);
     }
     setInputValue("");
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_CHAT_GPT_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: inputValue }],
+        max_tokens: 500,
+      }),
+    });
+
+    const data = await response.json();
+    const chatResponse = data.choises[0].message.content.trim();
+
+    const newResponse = {
+      type: "response",
+      text: chatResponse,
+      timestamp: new Date().toLocaleTimeString(),
+    };
+
+    const updatedMessagesWithResponse = [...updatedMessages, newResponse];
+    setMessages(updatedMessagesWithResponse);
+
+    const updatedChatsWithResponse = chats.map((chat) => {
+      if (chat.id === activeChat) {
+        return { ...chat, messages: updatedChatsWithResponse };
+      } else {
+        return chat;
+      }
+    });
+    setChats(updatedChatsWithResponse);
   };
 
   const handleMessageFormSubmit = (e) => {
