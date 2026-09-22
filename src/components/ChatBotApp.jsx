@@ -12,6 +12,7 @@ const ChatBotApp = ({
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState(chats[0]?.messages || []);
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
     const activeChatObj = chats.find((chat) => chat.id === activeChat);
@@ -49,6 +50,7 @@ const ChatBotApp = ({
       setChats(updatedChats);
     }
     setInputValue("");
+    setIsTyping(true);
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -74,6 +76,7 @@ const ChatBotApp = ({
 
     const updatedMessagesWithResponse = [...updatedMessages, newResponse];
     setMessages(updatedMessagesWithResponse);
+    setIsTyping(false);
 
     const updatedChatsWithResponse = chats.map((chat) => {
       if (chat.id === activeChat) {
@@ -141,22 +144,22 @@ const ChatBotApp = ({
               {msg.text} <span>{msg.timestamp}</span>
             </div>
           ))}
-          <div className="typing">Typing...</div>
-          <form className="msg-form" onSubmit={handleMessageFormSubmit}>
-            <i className="fa-solid fa-face-smile emoji"></i>
-            <input
-              value={inputValue}
-              onChange={handleInputChange}
-              type="text"
-              className="msg-input"
-              placeholder="Type a message..."
-            />
-            <i
-              className="fa-solid fa-paper-plane"
-              onClick={handleSendMessage}
-            ></i>
-          </form>
+          {isTyping && <div className="typing">Typing...</div>}
         </div>
+        <form className="msg-form" onSubmit={handleMessageFormSubmit}>
+          <i className="fa-solid fa-face-smile emoji"></i>
+          <input
+            value={inputValue}
+            onChange={handleInputChange}
+            type="text"
+            className="msg-input"
+            placeholder="Type a message..."
+          />
+          <i
+            className="fa-solid fa-paper-plane"
+            onClick={handleSendMessage}
+          ></i>
+        </form>
       </div>
     </div>
   );
