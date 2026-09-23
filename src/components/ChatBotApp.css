@@ -149,6 +149,7 @@
 }
 
 .msg-form {
+  position: relative;
   display: flex;
   align-items: center;
   padding-right: 5rem;
@@ -168,6 +169,12 @@
   display: flex;
   justify-content: center;
   width: 10rem;
+}
+
+.emoji-picker {
+  position: absolute;
+  bottom: 7rem;
+  left: 8rem;
 }
 
 .msg-form .msg-input {
