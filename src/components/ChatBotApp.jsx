@@ -142,7 +142,7 @@ const ChatBotApp = ({
       <div className="chat-list">
         <div className="chat-list-header">
           <h2>Chat List</h2>
-          <i className="bx bx-edit-alt new-chat" onClick={addNewChat}></i>
+          <i className="bx bx-edit-alt new-chat" onClick={() => addNewChat()}></i>
         </div>
         {chats.map((chat) => (
           <div
