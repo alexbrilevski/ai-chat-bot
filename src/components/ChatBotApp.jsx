@@ -24,6 +24,13 @@ const ChatBotApp = ({
   }, [chats, activeChat]);
 
   useEffect(() => {
+    if (activeChat) {
+      const storedMesages = JSON.parse(localStorage.getItem(activeChat)) || [];
+      setMessages(storedMesages);
+    }
+  }, [activeChat]);
+
+  useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -51,6 +58,7 @@ const ChatBotApp = ({
       const updatedMessages = [...messages, newMessage];
 
       setMessages(updatedMessages);
+      localStorage.setItem(activeChat, JSON.stringify(updatedMessages));
 
       const updatedChats = chats.map((chat) => {
         if (chat.id === activeChat) {
@@ -60,6 +68,7 @@ const ChatBotApp = ({
       });
 
       setChats(updatedChats);
+      localStorage.setItem("chats", JSON.stringify(updatedChats));
     }
     setInputValue("");
     setIsTyping(true);
@@ -89,6 +98,10 @@ const ChatBotApp = ({
     const updatedMessagesWithResponse = [...updatedMessages, newResponse];
     setMessages(updatedMessagesWithResponse);
     setIsTyping(false);
+    localStorage.setItem(
+      activeChat,
+      JSON.stringify(updatedMessagesWithResponse),
+    );
 
     const updatedChatsWithResponse = chats.map((chat) => {
       if (chat.id === activeChat) {
@@ -98,6 +111,7 @@ const ChatBotApp = ({
       }
     });
     setChats(updatedChatsWithResponse);
+    localStorage.setItem("chats", JSON.stringify(updatedChatsWithResponse));
   };
 
   const handleMessageFormSubmit = (e) => {
@@ -114,6 +128,8 @@ const ChatBotApp = ({
 
     const updatedChats = chats.filter((chat) => chat.id !== id);
     setChats(updatedChats);
+    localStorage.setItem("chats", JSON.stringify(updatedChats));
+    localStorage.removeItem(id);
 
     if (activeChat === id) {
       const newActiveChat = updatedChats.length > 0 ? updatedChats[0].id : null;
