@@ -29,9 +29,18 @@
   text-transform: uppercase;
 }
 
+.chat-list-header-actions {
+  display: flex;
+  gap: 2rem;
+}
+
 .chat-list-header i {
   font-size: 2.5rem;
   cursor: pointer;
+}
+
+.chat-list-header .close-list {
+  display: none;
 }
 
 .chat-list-item {
@@ -73,6 +82,7 @@
 }
 
 .chat-title {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -80,6 +90,10 @@
   min-height: 8rem;
   padding-right: 2rem;
   background-color: #0d111a;
+}
+
+.chat-title i.bx-menu {
+  display: none;
 }
 
 .chat-title h3 {
@@ -194,4 +208,55 @@
 
 .msg-form .msg-input:focus::placeholder {
   opacity: 0;
+}
+
+@media (max-width: 900px) {
+  .chat-app {
+    flex-direction: column;
+  }
+
+  .chat-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 1;
+  }
+
+  .chat-list.show {
+    transform: translateX(0);
+  }
+
+  .chat-list-header .close-list {
+    display: block;
+  }
+
+  .chat-window {
+    width: 100%;
+  }
+
+  .chat-title h3 {
+    padding-left: 7rem;
+  }
+
+  .chat-title i.bx-menu {
+    position: absolute;
+    display: block;
+    padding: 1rem;
+    font-size: 3rem;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 500px) {
+  .chat-list {
+    width: 80%;
+  }
+
+  .emoji-picker {
+    left: 1rem;
+  }
 }
